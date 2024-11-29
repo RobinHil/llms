@@ -1,0 +1,34 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: ["gpu"]
+              count: all
+    ports:
+      - "11434:11434"
+    networks:
+      - network
+    restart: always
+    volumes:
+      - ollama_data:/root/.ollama
+      - ./entrypoint.sh:/entrypoint.sh
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
+
+volumes:
+  ollama_data:
+    name: ollama_data
+
+networks:
+  network:
+    driver: bridge
+    name: ollama_network
