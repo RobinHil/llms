@@ -3,7 +3,7 @@ services:
     image: localai/localai:latest-aio-gpu-nvidia-cuda-12
     container_name: localai
     environment:
-      MODELS: "mistral-7b-instruct-v0.3,all-MiniLM-L6-v2"
+      MODELS: "mistral-7b-instruct-v0.3,all-MiniLM-L6-v2,meta-llama-3.1-70b-instruct"
     deploy:
       resources:
         reservations:
