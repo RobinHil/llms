@@ -12,19 +12,24 @@ pid=$!
 sleep 5
 
 # Pull default models
-echo "🔴 Retrieve Mistral model..."
+echo "🔵 Retrieve Mistral model..."
 if ! ollama pull mistral; then
-    echo "❌ Error while retrieving Mistral model"
+    echo "🔴 Error while retrieving Mistral model"
     exit 1
 fi
 
-echo "🔴 Retrieve Nomic embedding model..."
+echo "🔵 Retrieve Nomic embedding model..."
 if ! ollama pull nomic-embed-text; then
-    echo "❌ Error while retrieving Nomic model"
+    echo "🔴 Error while retrieving Nomic embedding model"
     exit 1
 fi
 
-echo "🟢 Done!"
+if [ $? -eq 0 ]; then
+    echo "🟢 Done!"
+else
+    echo "🔴 An error occurred while retrieving models"
+    exit 1
+fi
 
 # Wait for Ollama process to finish.
 wait $pid
